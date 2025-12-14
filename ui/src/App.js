@@ -61,9 +61,6 @@ function App() {
       }
     } catch (error) {
       console.error("Error calculating commission:", error);
-      alert(
-        "Failed to calculate commission. Please check your connection and try again."
-      );
     } finally {
       setIsLoading(false);
     }
