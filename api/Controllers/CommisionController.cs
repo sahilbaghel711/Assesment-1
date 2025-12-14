@@ -8,11 +8,30 @@ namespace AvalphaTechnologies.CommissionCalculator.Controllers
     {
         [ProducesResponseType(typeof(CommissionCalculationResponse), 200)]
         [HttpPost]
-        public IActionResult Calculate(CommissionCalculationRequest calculationRequest)
+        public IActionResult Calculate([FromBody] CommissionCalculationRequest calculationRequest)
         {
-            return Ok(new CommissionCalculationResponse() { 
-                AvalphaTechnologiesCommissionAmount = 999,
-                CompetitorCommissionAmount = 100
+            var localCommission = calculationRequest.LocalSalesCount *
+                                 calculationRequest.AverageSaleAmount *
+                                 0.2m;
+
+            var foreignCommission = calculationRequest.ForeignSalesCount *
+                                   calculationRequest.AverageSaleAmount *
+                                   0.35m;
+
+            var avalphaTechnologiesTotal = localCommission + foreignCommission;
+
+            var competitorLocal = calculationRequest.LocalSalesCount *
+                                 calculationRequest.AverageSaleAmount *
+                                 0.02m;
+
+            var competitorForeign = calculationRequest.ForeignSalesCount *
+                                   calculationRequest.AverageSaleAmount *
+                                   0.0755m;
+
+            var competitorTotal = competitorLocal + competitorForeign;
+            return Ok(new CommissionCalculationResponse() {
+                AvalphaTechnologiesCommissionAmount = avalphaTechnologiesTotal,
+                CompetitorCommissionAmount = competitorTotal
             });
         }
     }
