@@ -26,23 +26,23 @@ function App() {
   };
 
   const fetchCommissionData = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/Commision`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          localSalesCount: parseInt(formData.localSalesCount),
-          foreignSalesCount: parseInt(formData.foreignSalesCount),
-          averageSaleAmount: parseFloat(formData.averageSaleAmount),
-        }),
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching commission data:", error);
+    const response = await fetch(`${API_BASE_URL}/Commision`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        localSalesCount: parseInt(formData.localSalesCount),
+        foreignSalesCount: parseInt(formData.foreignSalesCount),
+        averageSaleAmount: parseFloat(formData.averageSaleAmount),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
     }
+
+    return await response.json();
   };
 
   const handleSubmit = async (e) => {
@@ -61,6 +61,9 @@ function App() {
       }
     } catch (error) {
       console.error("Error calculating commission:", error);
+      alert(
+        "Failed to calculate commission. Please check your connection and try again."
+      );
     } finally {
       setIsLoading(false);
     }
