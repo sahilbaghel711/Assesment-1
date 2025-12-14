@@ -27,7 +27,7 @@ function App() {
 
   const fetchCommissionData = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/Commission`, {
+      const response = await fetch(`${API_BASE_URL}/Commision`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
