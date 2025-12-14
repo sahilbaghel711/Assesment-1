@@ -33,14 +33,14 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             var okResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsType<CommissionCalculationResponse>(okResult.Value);
 
-            Assert.Equal(550m, response.AvalphaTechnologiesCommissionAmount); // (10*100*0.2) + (10*100*0.35)
-            Assert.Equal(95.5m, response.CompetitorCommissionAmount); // (10*100*0.02) + (10*100*0.0755)
+            Assert.Equal(550m, response.AvalphaTechnologiesCommissionAmount);
+            Assert.Equal(95.5m, response.CompetitorCommissionAmount);
         }
 
         #endregion
 
         #region Invalid Input Tests
-
+        // localSalesCount < 0 
         [Fact]
         public void Calculate_NegativeLocalSalesCount_ReturnsBadRequest()
         {
@@ -59,7 +59,7 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
-
+        // foreignSalesCount < 0
         [Fact]
         public void Calculate_NegativeForeignSalesCount_ReturnsBadRequest()
         {
@@ -78,6 +78,8 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
+
+        //negative averageSaleAmount
 
         [Fact]
         public void Calculate_NegativeAverageSaleAmount_ReturnsBadRequest()
@@ -98,6 +100,8 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
 
+        // localSalesCount > 100000
+
         [Fact]
         public void Calculate_LocalSalesCountAboveMax_ReturnsBadRequest()
         {
@@ -116,7 +120,7 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
-
+        // foreignSalesCount > 100000
         [Fact]
         public void Calculate_ForeignSalesCountAboveMax_ReturnsBadRequest()
         {
@@ -136,6 +140,8 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
 
+        // averageSaleAmount > 10000000
+
         [Fact]
         public void Calculate_AverageSaleAmountAboveMax_ReturnsBadRequest()
         {
@@ -154,7 +160,7 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
-
+        // averageSaleAmount = 0
         [Fact]
         public void Calculate_ZeroAverageSaleAmount_ReturnsBadRequest()
         {
