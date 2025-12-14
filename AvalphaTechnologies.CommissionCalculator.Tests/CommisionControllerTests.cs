@@ -155,6 +155,25 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
             Assert.Equal("Invalid local sales count.", badRequestResult.Value);
         }
 
+        [Fact]
+        public void Calculate_ZeroAverageSaleAmount_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new CommissionCalculationRequest
+            {
+                LocalSalesCount = 10,
+                ForeignSalesCount = 10,
+                AverageSaleAmount = 0m
+            };
+
+            // Act
+            var result = _controller.Calculate(request);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Invalid local sales count.", badRequestResult.Value);
+        }
+
         #endregion
 
 
