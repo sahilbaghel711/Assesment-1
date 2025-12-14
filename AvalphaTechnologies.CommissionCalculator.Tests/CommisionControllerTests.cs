@@ -1,0 +1,45 @@
+﻿using AvalphaTechnologies.CommissionCalculator.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Xunit;
+
+namespace AvalphaTechnologies.CommissionCalculator.Tests
+{
+    public class CommisionControllerTests
+    {
+        private readonly CommisionController _controller;
+
+        public CommisionControllerTests()
+        {
+            _controller = new CommisionController();
+        }
+
+        #region Happy Path Tests
+
+        [Fact]
+        public void Calculate_ValidInput_ReturnsOkWithCorrectCommissions()
+        {
+            // Arrange
+            var request = new CommissionCalculationRequest
+            {
+                LocalSalesCount = 10,
+                ForeignSalesCount = 10,
+                AverageSaleAmount = 100m
+            };
+
+            // Act
+            var result = _controller.Calculate(request);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var response = Assert.IsType<CommissionCalculationResponse>(okResult.Value);
+
+            Assert.Equal(550m, response.AvalphaTechnologiesCommissionAmount); // (10*100*0.2) + (10*100*0.35)
+            Assert.Equal(95.5m, response.CompetitorCommissionAmount); // (10*100*0.02) + (10*100*0.0755)
+        }
+
+        #endregion
+
+
+
+    }
+}
