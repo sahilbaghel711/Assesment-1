@@ -96,7 +96,7 @@ function App() {
                   placeholder="Enter number of local sales"
                   required
                   min="0"
-                  max="10000"
+                  max="100000"
                 />
               </div>
 
@@ -111,7 +111,7 @@ function App() {
                   placeholder="Enter number of foreign sales"
                   required
                   min="0"
-                  max="10000"
+                  max="100000"
                 />
               </div>
 
@@ -129,7 +129,7 @@ function App() {
                   placeholder="Enter average sale amount"
                   required
                   min="0.01"
-                  max="1000000"
+                  max="10000000"
                 />
               </div>
 
