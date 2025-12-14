@@ -39,6 +39,30 @@ namespace AvalphaTechnologies.CommissionCalculator.Tests
 
         #endregion
 
+        #region Invalid Input Tests
+
+        [Fact]
+        public void Calculate_NegativeLocalSalesCount_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new CommissionCalculationRequest
+            {
+                LocalSalesCount = -5,
+                ForeignSalesCount = 10,
+                AverageSaleAmount = 100m
+            };
+
+            // Act
+            var result = _controller.Calculate(request);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Invalid local sales count.", badRequestResult.Value);
+        }
+
+        #endregion
+
+
 
 
     }
