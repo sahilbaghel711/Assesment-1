@@ -33,10 +33,10 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        localSalesCount: parseInt(formData.localSalesCount),
-        foreignSalesCount: parseInt(formData.foreignSalesCount),
-        averageSaleAmount: parseFloat(formData.averageSaleAmount)
-      }),
+          localSalesCount: parseInt(formData.localSalesCount),
+          foreignSalesCount: parseInt(formData.foreignSalesCount),
+          averageSaleAmount: parseFloat(formData.averageSaleAmount),
+        }),
       });
       const data = await response.json();
       return data;
@@ -49,35 +49,21 @@ function App() {
     e.preventDefault();
     setIsLoading(true);
 
-    // TODO: Replace with actual API call to backend
-    setTimeout(() => {
-      // Mock calculation for now
-      const localCommission =
-        parseFloat(formData.localSalesCount) *
-        parseFloat(formData.averageSaleAmount) *
-        0.2;
-      const foreignCommission =
-        parseFloat(formData.foreignSalesCount) *
-        parseFloat(formData.averageSaleAmount) *
-        0.35;
-      const avalphaTechnologiesTotal = localCommission + foreignCommission;
+    try {
+      const data = await fetchCommissionData();
 
-      const competitorLocal =
-        parseFloat(formData.localSalesCount) *
-        parseFloat(formData.averageSaleAmount) *
-        0.02;
-      const competitorForeign =
-        parseFloat(formData.foreignSalesCount) *
-        parseFloat(formData.averageSaleAmount) *
-        0.0755;
-      const competitorTotal = competitorLocal + competitorForeign;
-
-      setResults({
-        avalphaTechnologiesCommission: avalphaTechnologiesTotal.toFixed(2),
-        competitorCommission: competitorTotal.toFixed(2),
-      });
+      if (data) {
+        setResults({
+          avalphaTechnologiesCommission:
+            data.avalphaTechnologiesCommissionAmount.toFixed(2),
+          competitorCommission: data.competitorCommissionAmount.toFixed(2),
+        });
+      }
+    } catch (error) {
+      console.error("Error calculating commission:", error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
