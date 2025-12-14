@@ -10,6 +10,12 @@ namespace AvalphaTechnologies.CommissionCalculator.Controllers
         [HttpPost]
         public IActionResult Calculate([FromBody] CommissionCalculationRequest calculationRequest)
         {
+
+            if (calculationRequest.LocalSalesCount < 0 || calculationRequest.LocalSalesCount > 100000 || calculationRequest.ForeignSalesCount < 0 || calculationRequest.ForeignSalesCount > 100000 || calculationRequest.AverageSaleAmount <=0 || calculationRequest.AverageSaleAmount > 10000000)
+            {
+                return BadRequest("Invalid local sales count.");
+            }
+
             var localCommission = calculationRequest.LocalSalesCount *
                                  calculationRequest.AverageSaleAmount *
                                  0.2m;
